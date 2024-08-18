@@ -15,6 +15,7 @@ class Solution {
         }
         
         int answer = 0;
+        
         // 3. 각 간선을 순회하면서 처리
         for(int[] cost : costs) {
             int start = cost[0];
