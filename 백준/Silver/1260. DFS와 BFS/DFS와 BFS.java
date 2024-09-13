@@ -1,91 +1,68 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Iterator;
-import java.util.Collections;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
-class Graph {
-  private int V;
-  private ArrayList<LinkedList<Integer>> adj;
+public class Main {
+  public static int nodes;
+  public static int edgeNum;
+  public static int start;
+  public static int[][] edges;
+  public static boolean[] visited;
 
-  Graph(int v) {
-    V = v;
-    adj = new ArrayList<>(v);
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
 
-    for (int i = 0; i < v; i++) {
-      adj.add(new LinkedList<>());
+    nodes = Integer.parseInt(st.nextToken());
+    edgeNum = Integer.parseInt(st.nextToken());
+    start = Integer.parseInt(st.nextToken());
+    edges = new int[nodes + 1][nodes + 1];
+    visited = new boolean[nodes + 1];
+
+    for (int i = 0; i < edgeNum; i++) {
+      st = new StringTokenizer(br.readLine());
+      int startEdge = Integer.parseInt(st.nextToken());
+      int endEdge = Integer.parseInt(st.nextToken());
+
+      edges[startEdge][endEdge] = 1;
+      edges[endEdge][startEdge] = 1;
     }
+
+    DFS(start);
+    System.out.println();
+
+    visited = new boolean[nodes + 1];
+    BFS(start);
   }
 
-  void addEdge(int v, int w) {
-    adj.get(v-1).add(w-1);
-    adj.get(w-1).add(v-1);
-    Collections.sort(adj.get(v-1));
-    Collections.sort(adj.get(w-1));
-  }
-
-  void DFS(int v) {
-    boolean visited[] = new boolean[V];
-    DFSUtil(v, visited);
-  }
-
-  void DFSUtil(int v, boolean visited[]) {
-    visited[v] = true;
-    System.out.print((v + 1) + " ");
-    Iterator<Integer> it = adj.get(v).iterator();
-    while (it.hasNext()) {
-      int n = it.next();
-      if (!visited[n]) {
-        DFSUtil(n, visited);
+  public static void DFS(int start) {
+    visited[start] = true;
+    System.out.print(start + " ");
+    for (int i = 1; i <= nodes; i++) {
+      if (edges[start][i] == 1 && !visited[i]) {
+        DFS(i);
       }
     }
   }
 
-  void BFS(int s) {
-    boolean visited[] = new boolean[V];
-    LinkedList<Integer> queue = new LinkedList<Integer>();
-
-    visited[s] = true;
-    queue.add(s);
-    System.out.print((s + 1) + " ");
+  public static void BFS(int start) {
+    Queue<Integer> queue = new LinkedList<>();
+    queue.add(start);
+    visited[start] = true;
+    System.out.print(start + " ");
 
     while (!queue.isEmpty()) {
-      int curr = queue.poll();
-      Iterator<Integer> it = adj.get(curr).iterator();
-
-      while (it.hasNext()) {
-        int n = it.next();
-        if (!visited[n]) {
-          visited[n] = true;
-          queue.add(n);
-          System.out.print((n + 1) + " ");
+      int cur = queue.poll();
+      for (int i = 1; i <= nodes; i++) {
+        if (edges[cur][i] == 1 && !visited[i]) {
+          queue.add(i);
+          visited[i] = true;
+          System.out.print(i + " ");
         }
       }
     }
-  }
-}
-
-public class Main {
-  public static void main(String[] args) {
-    Scanner scanner = new Scanner(System.in);
-
-    String info = scanner.nextLine();
-    int v = Integer.parseInt(info.split(" ")[0]);
-    int e = Integer.parseInt(info.split(" ")[1]);
-    int start = Integer.parseInt(info.split(" ")[2]);
-
-    Graph graph = new Graph(v);
-
-    for (int i = 0; i < e; i++) {
-      String[] edge = scanner.nextLine().split(" ");
-      int edge_start = Integer.parseInt(edge[0]);
-      int edge_end = Integer.parseInt(edge[1]);
-
-      graph.addEdge(edge_start, edge_end);
-    }
-
-    graph.DFS(start - 1);
-    System.out.println();
-    graph.BFS(start - 1);
   }
 }
