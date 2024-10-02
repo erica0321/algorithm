@@ -1,35 +1,35 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
-  public static void main(String[] args) {
-    Scanner scanner = new Scanner(System.in);
-    String input = scanner.nextLine();
-    int num = Integer.parseInt(input.split(" ")[0]);
-    int weight = Integer.parseInt(input.split(" ")[1]);
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
 
-    int[][] junseo = new int[num + 1][2];
-    int[][] dp = new int[num + 1][weight + 1];
+    int N = Integer.parseInt(st.nextToken());
+    int K = Integer.parseInt(st.nextToken());
 
-    for (int i = 1; i <= num; i++) {
-      String input2 = scanner.nextLine();
-      int w = Integer.parseInt(input2.split(" ")[0]);
-      int v = Integer.parseInt(input2.split(" ")[1]);
-
-      junseo[i][0] = w;
-      junseo[i][1] = v;
+    int[][] junseo = new int[N][2];
+    for (int i = 0; i < N; i++) {
+      st = new StringTokenizer(br.readLine());
+      junseo[i][0] = Integer.parseInt(st.nextToken());
+      junseo[i][1] = Integer.parseInt(st.nextToken());
     }
 
-    for (int i = 1; i <= num; i++) {
-      for (int j = 1; j <= weight; j++) {
-        if (junseo[i][0] > j) {
-          dp[i][j] = dp[i - 1][j];
-          continue;
-        }
+    int[][] dp = new int[N + 1][K + 1];
 
-        dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - junseo[i][0]] + junseo[i][1]);
+    for (int i = 1; i <= N; i++) {
+      for (int j = 0; j <= K; j++) {
+        if (junseo[i - 1][0] > j) {
+          dp[i][j] = dp[i - 1][j];
+        } else {
+          dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - junseo[i - 1][0]] + junseo[i - 1][1]);
+        }
       }
     }
-    scanner.close();
-    System.out.println(dp[num][weight]);
+
+    System.out.println(dp[N][K]);
   }
 }
