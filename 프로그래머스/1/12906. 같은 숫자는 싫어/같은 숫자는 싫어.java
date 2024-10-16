@@ -1,14 +1,23 @@
-#include <vector>
-#include <iostream>
+import java.util.*;
 
-using namespace std;
-
-vector<int> solution(vector<int> arr) 
-{
-    vector<int> answer;
-
-    // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
-    cout << "Hello Cpp" << endl;
-
-    return answer;
+public class Solution {
+    public int[] solution(int[] arr) {
+        Stack<Integer> stack = new Stack<>();
+        
+        for (int i =0; i<arr.length; i++) {
+            if (stack.isEmpty() || stack.peek() != arr[i]) {
+                stack.push(arr[i]);
+            }
+        }
+        
+        int[] answer = new int[stack.size()];
+        int i = stack.size()-1;
+        
+        while (!stack.isEmpty()) {
+            int num2 = stack.pop();
+            answer[i--] = num2;
+        }
+        
+        return answer;
+    }
 }
