@@ -1,22 +1,24 @@
 class Solution {
-    static int answer = 0;
-    static int[] list;
-
+    public static int answer =0;
+    public static int N;
+    public static int[] list;
+    
     public int solution(int[] numbers, int target) {
+        N = numbers.length;
         list = numbers;
+        dfs(0, 0, target);
         
-        dfs(0, target, 0);
-
         return answer;
     }
-
-    // 깊이 우선 탐색
-    public void dfs(int depth, int target, int sum){
-        if(depth == list.length){
-            if(target == sum) answer++;
+    
+    public static void dfs(int depth, int num, int target) {
+        if (depth == N) {
+            if (num == target) {
+                answer++;
+            }
         } else {
-            dfs(depth + 1, target, sum + list[depth]);
-            dfs(depth + 1, target, sum - list[depth]);
+            dfs(depth + 1, num + list[depth], target);
+            dfs(depth + 1, num - list[depth], target);
         }
     }
 }
