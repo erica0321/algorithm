@@ -1,24 +1,27 @@
 class Solution {
-    public static int answer =0;
-    public static int N;
-    public static int[] list;
-    
+    public static int count;
+    public static int length;
+    public static int[] numbers2;
     public int solution(int[] numbers, int target) {
-        N = numbers.length;
-        list = numbers;
-        dfs(0, 0, target);
+        length = numbers.length;
+    
+        numbers2 = numbers;
         
-        return answer;
+        dfs(0, target, 0);
+        
+        return count;
     }
     
-    public static void dfs(int depth, int num, int target) {
-        if (depth == N) {
-            if (num == target) {
-                answer++;
+    public static void dfs(int depth, int target, int result) {
+        if(depth == length) {
+            if(result == target) {
+                count += 1;
             }
-        } else {
-            dfs(depth + 1, num + list[depth], target);
-            dfs(depth + 1, num - list[depth], target);
+            return;
         }
+        
+        int temp = numbers2[depth];
+        dfs(depth+1, target, result + numbers2[depth]);
+        dfs(depth +1, target, result - numbers2[depth]);
     }
 }
