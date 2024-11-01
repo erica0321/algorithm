@@ -1,24 +1,15 @@
 class Solution {
     public int[] solution(int brown, int yellow) {
-        int total = brown + yellow;
-        int realHeight = 3;
-        int realWidth = 0;
-        
-        //n은 노란색 가로, m은 노란색 세로
-        for(int height = 3; height <= total / height; height ++) {
-            if(total % height == 0) {
-                int width = total / height;
+        for(int i = 1; i<=yellow; i++) {
+            if(yellow % i == 0) {
+                int width = i;
+                int height = yellow / i;
                 
-                int yellowWidth = width -2;
-                int yelloHeight = height -2;
-                
-                if (yellowWidth * yelloHeight == yellow) { 
-                    realHeight = height;
-                    realWidth = width;
+                if((width+2) * (height + 2) == (brown + yellow) && width >= height)  {
+                    return new int[] {width+2, height+2};
                 }
             }
         }
-        
-        return new int[] { realWidth, realHeight };
+        return new int[]{0};
     }
 }
