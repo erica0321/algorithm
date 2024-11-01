@@ -1,19 +1,18 @@
 class Solution {
-    public static int max_x = Integer.MIN_VALUE;
-    public static int max_y = Integer.MIN_VALUE;
-    
     public int solution(int[][] sizes) {
-        for(int i =0; i<sizes.length; i++) {
-            if(sizes[i][0] <= sizes[i][1]) {
-                int switchs = sizes[i][1];
-                sizes[i][1] = sizes[i][0];
-                sizes[i][0] = switchs; 
+        int maxX = Integer.MIN_VALUE;
+        int maxY = Integer.MIN_VALUE;
+        
+        for(int[] size : sizes) {
+            if(size[0] > size[1]) {
+                maxX = Math.max(maxX, size[0]);
+                maxY = Math.max(maxY, size[1]);
+            } else {
+                maxX = Math.max(maxX, size[1]);
+                maxY = Math.max(maxY, size[0]);
             }
-            
-            max_x = Math.max(sizes[i][0], max_x);
-            max_y = Math.max(sizes[i][1], max_y);
         }
         
-        return max_x * max_y;
+        return maxX * maxY;
     }
 }
