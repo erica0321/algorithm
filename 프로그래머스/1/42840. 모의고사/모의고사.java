@@ -1,29 +1,31 @@
 import java.util.*;
-
 class Solution {
     public int[] solution(int[] answers) {
-        int[] a = {1, 2, 3, 4, 5};
-        int[] b = {2, 1, 2, 3, 2, 4, 2, 5};
-        int[] c = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
+        int[] answer1 = {1, 2, 3, 4, 5};
+        int[] answer2 = {2, 1, 2, 3, 2, 4, 2, 5};
+        int[] answer3 = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
+    
+        int[] count = new int[3];
         
-        int[] correct = new int[3];
-        
-        for(int i =0; i<answers.length; i++) {
-            if(answers[i] == a[i%5]) correct[0] ++;
-            if(answers[i] == b[i%8]) correct[1] ++;
-            if(answers[i] == c[i%10]) correct[2] ++;
+        for(int i = 0; i<answers.length; i++) {
+            if(answers[i] == answer1[i % (answer1.length)]) count[0]++;
+            if(answers[i] == answer2[i % (answer2.length)]) count[1]++;
+            if(answers[i] == answer3[i % (answer3.length)]) count[2]++;
         }
         
-        int max = Math.max(correct[0], Math.max(correct[1], correct[2]));
+        int answer = Math.max(count[0], Math.max(count[1], count[2]));
         
-        List<Integer> answer = new ArrayList<Integer>();
-        for(int i=0; i<3; i++) if(max == correct[i]) answer.add(i+1);
+        List<Integer> people = new ArrayList<>();
         
-        int[] arr = new int[answer.size()];
-        for(int i=0; i<answer.size(); i++){
-            arr[i] = answer.get(i);
+        for(int i =0; i<3; i++) {
+            if(count[i] == answer) people.add(i+1);
         }
-
-        return arr;
+        
+        int[] result = new int[people.size()];
+        for(int i = 0; i < people.size(); i++) {
+            result[i] = people.get(i);
+        }
+        
+        return result;
     }
 }
